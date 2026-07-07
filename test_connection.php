@@ -1,7 +1,9 @@
 <?php
 
-require_once 'config/config.php';
-require_once 'config/Database.php';
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/config/config.php';
+
+use GCAS\Core\Database;
 
 $database = new Database();
 $conn = $database->connect();
