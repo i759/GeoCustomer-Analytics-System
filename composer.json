@@ -1,0 +1,13 @@
+{
+    "name": "i759/geocustomer-analytics-system",
+    "description": "GIS-Based Customer Distribution Analysis System",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "I759\\GeocustomerAnalyticsSystem\\": "app/"
+        }
+    },
+    "minimum-stability": "stable",
+    "require": {}
+}
