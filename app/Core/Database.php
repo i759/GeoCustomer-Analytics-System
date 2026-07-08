@@ -7,28 +7,29 @@ use PDOException;
 
 class Database
 {
-    private $host = DB_HOST;
-    private $db_name = DB_NAME;
-    private $username = DB_USER;
-    private $password = DB_PASS;
+    private string $host = DB_HOST;
+    private string $dbName = DB_NAME;
+    private string $username = DB_USER;
+    private string $password = DB_PASS;
 
-    private $connection;
+    private ?PDO $connection = null;
 
-    public function connect()
+    public function connect(): PDO
     {
-        $this->connection = null;
+        if ($this->connection === null) {
+            try {
+                $this->connection = new PDO(
+                    "mysql:host={$this->host};dbname={$this->dbName};charset=utf8mb4",
+                    $this->username,
+                    $this->password
+                );
 
-        try {
-            $this->connection = new PDO(
-                "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4",
-                $this->username,
-                $this->password
-            );
+                $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
-            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        } catch (PDOException $e) {
-            die("Database Connection Failed: " . $e->getMessage());
+            } catch (PDOException $e) {
+                die("Database Connection Failed: " . $e->getMessage());
+            }
         }
 
         return $this->connection;
