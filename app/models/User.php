@@ -33,4 +33,19 @@ class User
 
         return $stmt->fetch();
     }
+    /**
+ * Update the user's last login time.
+ */
+public function updateLastLogin(int $userId): bool
+{
+    $sql = "UPDATE users
+            SET last_login = NOW()
+            WHERE id = :id";
+
+    $stmt = $this->db->prepare($sql);
+
+    return $stmt->execute([
+        ':id' => $userId
+    ]);
+}
 }

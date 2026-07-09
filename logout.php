@@ -7,8 +7,4 @@ use GCAS\Controllers\AuthController;
 
 $auth = new AuthController();
 
-$result = $auth->login('admin', 'Admin@123');
-
-echo "<pre>";
-print_r($result);
-echo "</pre>";
+$auth->logout();

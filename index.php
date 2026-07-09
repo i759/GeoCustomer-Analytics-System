@@ -1,3 +1,13 @@
 <?php
 
-echo "<h1>Welcome to GeoCustomer Analytics System (GCAS)</h1>";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['user'])) {
+    header('Location: dashboard.php');
+} else {
+    header('Location: app/Views/login.php');
+}
+
+exit;
