@@ -58,7 +58,15 @@ class CustomerController
 
         header("Location: index.php?page=add_customer");
     }
+/**
+ * Display all Customers
+ */
+public function index()
+{
+    $customers = $this->customerModel->getAll();
 
+    require __DIR__ . '/../Views/customers/index.php';
+}
     /**
      * Generate Customer Code
      */

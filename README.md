@@ -12,7 +12,7 @@ A GIS-Based Customer Distribution Analysis System for Business Decision Support.
 - OpenStreetMap
 
 ## Developed By
-
+My customer list is in app>views>customers>index.php
 Adewale Busayo Racheal
 
 B.Sc. Computer Science Final Year Project

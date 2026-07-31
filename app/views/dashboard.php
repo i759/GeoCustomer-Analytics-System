@@ -167,7 +167,7 @@ Quick Actions
     Add Customer
 </a>
 
-<a href="#" class="list-group-item">
+<a href="index.php?page=customers" class="list-group-item">
     <i class="bi bi-people-fill me-2"></i>
     Customer List
 </a>
