@@ -44,6 +44,7 @@ $customers = $customerModel->getAll();
             <th>City</th>
             <th>State</th>
             <th>Country</th>
+            <th>Actions</th>
         </tr>
 
         </thead>
@@ -56,6 +57,19 @@ $customers = $customerModel->getAll();
                 <td colspan="7" class="text-center">
                     No customers found.
                 </td>
+                <td>
+    <a href="#" class="btn btn-sm btn-info">
+        View
+    </a>
+
+    <a href="#" class="btn btn-sm btn-warning">
+        Edit
+    </a>
+
+    <a href="#" class="btn btn-sm btn-danger">
+        Delete
+    </a>
+</td>
             </tr>
 
         <?php else: ?>
@@ -80,6 +94,19 @@ $customers = $customerModel->getAll();
                 <td><?= htmlspecialchars($customer['state']) ?></td>
 
                 <td><?= htmlspecialchars($customer['country']) ?></td>
+                <td>
+    <a href="#" class="btn btn-sm btn-info">
+        View
+    </a>
+
+    <a href="#" class="btn btn-sm btn-warning">
+        Edit
+    </a>
+
+    <a href="#" class="btn btn-sm btn-danger">
+        Delete
+    </a>
+</td>
 
             </tr>
 

@@ -157,7 +157,10 @@ No customers yet.
 <div class="card-header">
 
 Quick Actions
-
+<a href="map.php" class="list-group-item">
+    <i class="bi bi-geo-alt-fill me-2"></i>
+    Customer Map
+</a>
 </div>
 
 <div class="list-group list-group-flush">
