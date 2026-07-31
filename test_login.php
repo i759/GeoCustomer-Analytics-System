@@ -7,8 +7,8 @@ use GCAS\Controllers\AuthController;
 
 $auth = new AuthController();
 
-if ($auth->login('admin', 'Admin@123')) {
-    echo "<h2>✅ Login Successful</h2>";
-} else {
-    echo "<h2>❌ Login Failed</h2>";
-}
+$result = $auth->login('admin', 'Admin@123');
+
+echo "<pre>";
+print_r($result);
+echo "</pre>";
