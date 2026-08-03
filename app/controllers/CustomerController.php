@@ -1,8 +1,10 @@
 <?php
 
+
 namespace GCAS\Controllers;
 
 use GCAS\Models\Customer;
+use GCAS\Helpers\Geocoder;
 
 class CustomerController
 {
@@ -30,6 +32,13 @@ class CustomerController
             header("Location: index.php?page=add_customer");
             exit;
         }
+$fullAddress =
+    trim($_POST['street_address']) . ", " .
+    trim($_POST['city']) . ", " .
+    trim($_POST['state']) . ", " .
+    trim($_POST['country']);
+
+$coordinates = Geocoder::getCoordinates($fullAddress);
 
         $customer = [
             'customer_code' => $this->generateCustomerCode(),
@@ -41,22 +50,22 @@ class CustomerController
             'city'          => trim($_POST['city']),
             'state'         => trim($_POST['state']),
             'country'       => trim($_POST['country']),
-            'latitude'      => $_POST['latitude'],
-            'longitude'     => $_POST['longitude']
+            'latitude' => $coordinates['latitude'],
+            'longitude' => $coordinates['longitude']
         ];
 
         if ($this->customerModel->create($customer)) {
 
             $_SESSION['success'] = "Customer added successfully.";
 
-            header("Location: index.php?page=customers");
+            header("Location: index.php?page=customer_list.php");
 
             exit;
         }
 
         $_SESSION['error'] = "Unable to save customer.";
 
-        header("Location: index.php?page=add_customer");
+        header("Location: index.php?page=customer_create.php");
     }
 /**
  * Display all Customers

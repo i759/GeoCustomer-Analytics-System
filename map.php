@@ -78,27 +78,22 @@ attribution:'© OpenStreetMap'
 
 <?php foreach($customers as $customer): ?>
 
-<?php if(!empty($customer['latitude']) && !empty($customer['longitude'])): ?>
+<?php
+$lat = (float)$customer['latitude'];
+$lng = (float)$customer['longitude'];
 
-L.marker([
+if ($lat != 0 && $lng != 0):
+?>
 
-<?= $customer['latitude'] ?>,
-
-<?= $customer['longitude'] ?>
-
-])
-
+L.marker([<?= $lat ?>, <?= $lng ?>])
 .addTo(map)
-
-.bindPopup(
-
-"<b><?= addslashes($customer['first_name'].' '.$customer['last_name']) ?></b><br>"+
-
-"<?= addslashes($customer['city']) ?>, <?= addslashes($customer['state']) ?><br>"+
-
-"<?= addslashes($customer['phone']) ?>"
-
-);
+.bindPopup(`
+    <strong><?= addslashes($customer['first_name'] . ' ' . $customer['last_name']) ?></strong><br>
+    <?= addslashes($customer['street_address']) ?><br>
+    <?= addslashes($customer['city']) ?>,
+    <?= addslashes($customer['state']) ?><br>
+    <?= addslashes($customer['phone']) ?>
+`);
 
 <?php endif; ?>
 
