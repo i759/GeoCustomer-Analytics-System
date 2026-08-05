@@ -136,11 +136,41 @@ Recent Customers
 
 <?php if (empty($recentCustomers)): ?>
 
-<p class="text-muted">
+    <p class="text-muted">No customers yet.</p>
 
-No customers yet.
+<?php else: ?>
 
-</p>
+<table class="table table-striped">
+
+    <thead>
+        <tr>
+            <th>Customer</th>
+            <th>Phone</th>
+            <th>State</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+    <?php foreach ($recentCustomers as $customer): ?>
+
+        <tr>
+
+            <td>
+                <?= htmlspecialchars($customer['first_name'] . ' ' . $customer['last_name']) ?>
+            </td>
+
+            <td><?= htmlspecialchars($customer['phone']) ?></td>
+
+            <td><?= htmlspecialchars($customer['state']) ?></td>
+
+        </tr>
+
+    <?php endforeach; ?>
+
+    </tbody>
+
+</table>
 
 <?php endif; ?>
 
@@ -157,14 +187,14 @@ No customers yet.
 <div class="card-header">
 
 Quick Actions
+
+</div>
+
+<div class="list-group list-group-flush">
 <a href="map.php" class="list-group-item">
     <i class="bi bi-geo-alt-fill me-2"></i>
     Customer Map
 </a>
-</div>
-
-<div class="list-group list-group-flush">
-
 <a href="customer_create.php" class="list-group-item">
     <i class="bi bi-plus-lg me-2"></i>
     Add Customer
@@ -180,7 +210,7 @@ Quick Actions
     View Map
 </a>
 
-<a href="#"
+<a href="analytics.php"
 class="list-group-item">
 <i class="bi bi-bar-chart-fill me-2"></i>
 Analytics
@@ -200,3 +230,32 @@ Analytics
 </body>
 
 </html>
+<script>
+
+const stateLabels =
+<?= json_encode(array_column($stateData,'state')); ?>;
+
+const stateTotals =
+<?= json_encode(array_column($stateData,'total')); ?>;
+
+new Chart(document.getElementById('stateChart'),{
+
+type:'bar',
+
+data:{
+
+labels:stateLabels,
+
+datasets:[{
+
+label:'Customers',
+
+data:stateTotals
+
+}]
+
+}
+
+});
+
+</script>

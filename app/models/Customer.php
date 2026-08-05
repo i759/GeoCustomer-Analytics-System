@@ -120,23 +120,91 @@ class Customer
             ")
             ->fetchColumn();
     }
-
     /**
+ * Get the state with the highest number of customers
+ */
+public function getTopState(): string
+{
+    $stmt = $this->db->query("
+        SELECT state, COUNT(*) AS total
+        FROM customers
+        GROUP BY state
+        ORDER BY total DESC
+        LIMIT 1
+    ");
+
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $row ? $row['state'] : "N/A";
+}
+/**
+ * Get customer distribution by state
+ */
+public function customersByState(): array
+{
+    $stmt = $this->db->query("
+        SELECT
+            state,
+            COUNT(*) AS total
+        FROM customers
+        GROUP BY state
+        ORDER BY state ASC
+    ");
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
+/**
+ * Get customer registrations by month
+ */
+public function monthlyRegistrations(): array
+{
+    $stmt = $this->db->query("
+        SELECT
+            DATE_FORMAT(created_at,'%b') AS month,
+            COUNT(*) AS total
+        FROM customers
+        GROUP BY MONTH(created_at)
+        ORDER BY MONTH(created_at)
+    ");
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+ /**
      * Get latest customers
      */
+
     public function getRecentCustomers(int $limit = 5): array
-    {
-        $stmt = $this->db->prepare(
-            "SELECT *
-             FROM customers
-             ORDER BY created_at DESC
-             LIMIT :limit"
-        );
+{
+    $stmt = $this->db->prepare(
+        "SELECT *
+         FROM customers
+         ORDER BY created_at DESC
+         LIMIT :limit"
+    );
 
-        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+    $stmt->execute();
 
-        $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+    /**
+ * Most represented state
+ */
+public function topArea(): string
+{
+    $stmt = $this->db->query("
+        SELECT state
+        FROM customers
+        GROUP BY state
+        ORDER BY COUNT(*) DESC
+        LIMIT 1
+    ");
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    return $result['state'] ?? 'N/A';
+}
+
 }

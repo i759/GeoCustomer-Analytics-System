@@ -3,28 +3,31 @@
 namespace GCAS\Controllers;
 
 use GCAS\Core\BaseController;
+use GCAS\Models\Customer;
 
 class DashboardController extends BaseController
 {
-    public function index(): void
-    {
-        $this->requireLogin();
+   public function index(): void
+{
+    $this->requireLogin();
 
-        $user = $_SESSION['user'];
+    $user = $_SESSION['user'];
 
-        $stats = [
-            'customers' => 0,
-            'states' => 0,
-            'monthly' => 0,
-            'topLocation' => 'N/A'
-        ];
+    $customerModel = new Customer();
 
-        $recentCustomers = [];
+    $stats = [
+        'customers'   => $customerModel->countCustomers(),
+        'states'      => $customerModel->countStates(),
+        'monthly'     => $customerModel->countMonthlyCustomers(),
+        'topLocation' => $customerModel->getTopState()
+    ];
 
-        $this->view('dashboard', [
-            'user' => $user,
-            'stats' => $stats,
-            'recentCustomers' => $recentCustomers
-        ]);
-    }
+    $recentCustomers = $customerModel->getRecentCustomers();
+
+    $this->view('dashboard', [
+        'user' => $user,
+        'stats' => $stats,
+        'recentCustomers' => $recentCustomers
+    ]);
+}
 }

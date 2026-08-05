@@ -83,4 +83,15 @@ public function index()
     {
         return 'CUS' . date('Y') . rand(1000,9999);
     }
+    /**
+ * Analytics Dashboard
+ */
+    public function analytics()
+{
+    $stateData = $this->customerModel->customersByState();
+
+    $monthlyData = $this->customerModel->monthlyRegistrations();
+
+    require __DIR__ . '/../Views/customers/analytics.php';
+}
 }
