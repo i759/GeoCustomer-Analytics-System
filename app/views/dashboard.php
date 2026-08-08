@@ -205,8 +205,8 @@ Quick Actions
     Customer List
 </a>
 
-<a href="#" class="list-group-item">
-    <i class="bi bi-map me-2"></i>
+<a href="map.php" target="_blank" class="list-group-item">
+    <i class="bi bi-globe me-2"></i>
     View Map
 </a>
 
