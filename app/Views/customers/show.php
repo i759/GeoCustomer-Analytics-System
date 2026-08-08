@@ -1,5 +1,146 @@
 <?php
 $fullName = trim(($customer['first_name'] ?? '') . ' ' . ($customer['last_name'] ?? ''));
-$hasCoordinates = $customer['latitude'] !== null && $customer['longitude'] !== null && (float)$customer['latitude'] !== 0.0 && (float)$customer['longitude'] !== 0.0;
+
+$hasCoordinates =
+    ($customer['latitude'] ?? null) !== null
+    && ($customer['longitude'] ?? null) !== null
+    && (float) $customer['latitude'] !== 0.0
+    && (float) $customer['longitude'] !== 0.0;
+
+$address = implode(', ', array_filter([
+    $customer['street_address'] ?? '',
+    $customer['city'] ?? '',
+    $customer['state'] ?? '',
+    $customer['country'] ?? '',
+]));
 ?>
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Customer Details</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"><link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"></head><body class="bg-light"><div class="container py-5"><div class="card border-0 shadow-sm rounded-4"><div class="card-body p-4 p-lg-5"><div class="d-flex justify-content-between align-items-start"><div><div class="text-primary small fw-semibold">CUSTOMER DETAILS</div><h2 class="fw-bold"><?= htmlspecialchars($fullName) ?></h2><span class="badge bg-light text-dark border"><?= htmlspecialchars($customer['customer_code']) ?></span></div><a href="customer_list.php" class="btn btn-outline-secondary">Back to List</a></div><hr><div class="row g-4"><div class="col-md-6"><strong>Phone</strong><div><?= htmlspecialchars($customer['phone'] ?? '—') ?></div></div><div class="col-md-6"><strong>Email</strong><div><?= htmlspecialchars($customer['email'] ?? '—') ?></div></div><div class="col-12"><strong>Address</strong><div><?= htmlspecialchars(trim(($customer['street_address'] ?? '').', '.($customer['city'] ?? '').', '.($customer['state'] ?? '').', '.($customer['country'] ?? '')) ?></div></div><div class="col-md-6"><strong>Latitude</strong><div><?= $hasCoordinates ? htmlspecialchars($customer['latitude']) : 'Not mapped' ?></div></div><div class="col-md-6"><strong>Longitude</strong><div><?= $hasCoordinates ? htmlspecialchars($customer['longitude']) : 'Not mapped' ?></div></div></div><div class="mt-4 d-flex gap-2"><a href="customer_action.php?action=edit&id=<?= (int)$customer['customer_id'] ?>" class="btn btn-primary"><i class="bi bi-pencil me-1"></i>Edit Customer</a><a href="map.php?customer_id=<?= (int)$customer['customer_id'] ?>" class="btn btn-outline-primary"><i class="bi bi-geo-alt me-1"></i>View on Map</a></div></div></div></div></body></html>
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Details</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+<div class="container py-5">
+
+    <div class="card border-0 shadow-sm rounded-4">
+
+        <div class="card-body p-4 p-lg-5">
+
+            <div class="d-flex justify-content-between align-items-start gap-3">
+
+                <div>
+                    <div class="text-primary small fw-semibold">
+                        CUSTOMER DETAILS
+                    </div>
+
+                    <h2 class="fw-bold mb-2">
+                        <?= htmlspecialchars($fullName) ?>
+                    </h2>
+
+                    <span class="badge bg-light text-dark border">
+                        <?= htmlspecialchars($customer['customer_code'] ?? '') ?>
+                    </span>
+                </div>
+
+                <a href="customer_list.php"
+                   class="btn btn-outline-secondary">
+                    Back to List
+                </a>
+
+            </div>
+
+            <hr>
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+                    <strong>Phone</strong>
+                    <div>
+                        <?= htmlspecialchars($customer['phone'] ?? '—') ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Email</strong>
+                    <div>
+                        <?= htmlspecialchars($customer['email'] ?? '—') ?>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <strong>Address</strong>
+                    <div>
+                        <?= htmlspecialchars($address ?: '—') ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Latitude</strong>
+                    <div>
+                        <?php if ($hasCoordinates): ?>
+                            <?= htmlspecialchars((string) $customer['latitude']) ?>
+                        <?php else: ?>
+                            Not mapped
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <strong>Longitude</strong>
+                    <div>
+                        <?php if ($hasCoordinates): ?>
+                            <?= htmlspecialchars((string) $customer['longitude']) ?>
+                        <?php else: ?>
+                            Not mapped
+                        <?php endif; ?>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-4 d-flex flex-wrap gap-2">
+
+                <a href="customer_action.php?action=edit&id=<?= (int) $customer['customer_id'] ?>"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-pencil me-1"></i>
+                    Edit Customer
+
+                </a>
+
+                <?php if ($hasCoordinates): ?>
+
+                    <a href="map.php?customer_id=<?= (int) $customer['customer_id'] ?>"
+                       class="btn btn-outline-primary">
+
+                        <i class="bi bi-geo-alt me-1"></i>
+                        View on Map
+
+                    </a>
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
